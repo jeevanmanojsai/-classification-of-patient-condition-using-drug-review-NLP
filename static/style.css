@@ -1,0 +1,255 @@
+/* Reset and Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-primary: #f8fafc;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --brand-teal: #0f766e;
+    --brand-teal-hover: #115e59;
+    --brand-teal-light: #f0fdfa;
+    --accent-blue: #0284c7;
+    --accent-blue-light: #f0f9ff;
+    --border-color: #e2e8f0;
+    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05), 0 0 0 1px rgb(0 0 0 / 0.02);
+    --card-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+    padding-bottom: 3rem;
+}
+
+/* Header & Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+}
+
+.brand-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.lead-text {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    font-weight: 400;
+}
+
+/* Card Styling */
+.custom-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.custom-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.card-header-teal {
+    background-color: var(--brand-teal-light);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-header-teal h4, .card-header-teal h5 {
+    color: var(--brand-teal);
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Form Elements */
+.custom-textarea {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    font-size: 1.05rem;
+    transition: all 0.2s ease-in-out;
+    background-color: #ffffff;
+    resize: vertical;
+}
+
+.custom-textarea:focus {
+    outline: none;
+    border-color: var(--brand-teal);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+}
+
+.btn-teal {
+    background-color: var(--brand-teal);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-teal:hover {
+    background-color: var(--brand-teal-hover);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-teal:active {
+    transform: translateY(0);
+}
+
+.btn-outline-teal {
+    color: var(--brand-teal);
+    border: 2px solid var(--brand-teal);
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-teal:hover {
+    background-color: var(--brand-teal);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-outline-teal:active {
+    transform: translateY(0);
+}
+
+/* Prediction Highlights */
+.result-badge {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-teal);
+}
+
+.sentiment-pill {
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.sentiment-Positive {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.sentiment-Negative {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.sentiment-Neutral {
+    background-color: #f1f5f9;
+    color: #334155;
+}
+
+/* Side Effects List */
+.side-effect-item {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.no-side-effects {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Explainable AI Highlight Box */
+.review-display-box {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    white-space: pre-line;
+}
+
+.explain-highlight {
+    cursor: help;
+    transition: all 0.2s ease;
+}
+
+.explain-highlight:hover {
+    filter: brightness(0.95);
+    transform: scale(1.05);
+}
+
+/* Table Styling */
+.custom-table {
+    border-radius: 12px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.custom-table th {
+    background-color: #f1f5f9;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.custom-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #ffffff;
+}
+
+.custom-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Footer style */
+footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+    margin-top: 4rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Custom progress bars for confidence */
+.progress-custom {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #e2e8f0;
+    overflow: hidden;
+}
+
+.progress-custom-bar {
+    height: 100%;
+    background-color: var(--brand-teal);
+    border-radius: 5px;
+}

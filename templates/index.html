@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Condition & Drug Recommendation System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Top Navigation -->
+        <div class="d-flex justify-content-end mb-3">
+            <a href="/dashboard" class="btn btn-outline-teal px-3 py-2 fw-semibold" style="border: 1px solid var(--brand-teal); color: var(--brand-teal); border-radius: 10px;">
+                <i class="fa-solid fa-chart-line me-1"></i> Model Performance Dashboard
+            </a>
+        </div>
+
+        <!-- Header -->
+        <div class="row mb-4 text-center">
+            <div class="col-md-8 mx-auto">
+                <i class="fa-solid fa-heart-pulse fa-3x text-teal mb-3" style="color: var(--brand-teal);"></i>
+                <h1 class="brand-title">Healthcare Analytics NLP Portal</h1>
+                <p class="lead-text">Patient Condition Classification, Intelligent Drug Recommendation, and Side-Effect Extraction using Advanced Machine Learning.</p>
+            </div>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert" style="border-radius: 12px; border: none;">
+                                <i class="fa-solid {% if category == 'danger' or category == 'warning' %}fa-circle-exclamation{% else %}fa-circle-info{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Model Status Alert -->
+        {% if not models_ready %}
+            <div class="row mb-4">
+                <div class="col-lg-8 mx-auto">
+                    <div class="alert alert-danger shadow-sm border-0 p-4" style="border-radius: 16px;">
+                        <h5 class="alert-heading fw-bold mb-2"><i class="fa-solid fa-triangle-exclamation me-2"></i>Models Not Trained Yet</h5>
+                        <p class="mb-3">The application models (classification, regression, sentiment, vectorizer) were not detected in the <code>models/</code> folder. You must train the models before making predictions.</p>
+                        <hr>
+                        <p class="mb-0 fs-7 text-secondary">Run: <code>python src/train.py</code> in your environment terminal to train and serialize the models.</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Input Form Section -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="custom-card p-4 p-md-5">
+                    <form action="{{ url_for('predict') }}" method="POST">
+                        <div class="mb-4">
+                            <label for="review_text" class="form-label h5 fw-bold mb-3">
+                                <i class="fa-solid fa-file-medical text-teal me-2" style="color: var(--brand-teal);"></i>
+                                Enter Patient Treatment Review
+                            </label>
+                            <textarea class="form-control custom-textarea" id="review_text" name="review_text" rows="6" placeholder="Describe the symptoms, treatment outcomes, ratings, and any side effects experienced (e.g., 'I was prescribed Metformin for my type 2 diabetes. It helped control my blood sugar and I feel much better...')" required {% if not models_ready %}disabled{% endif %}></textarea>
+                            
+                            <!-- Input guidelines list -->
+                            <div class="mt-3 p-3 bg-light rounded-3 border-start border-primary border-3 fs-7">
+                                <span class="fw-bold d-block mb-1 text-primary"><i class="fa-solid fa-shield-halved me-1"></i> NLP Input Requirements & Constraints:</span>
+                                <ul class="mb-0 ps-3 text-secondary">
+                                    <li>Review must contain at least **15 words** for robust syntactic parsing.</li>
+                                    <li>Input must be a valid clinical review (mentions of drugs, doctors, pain, symptoms, treatments, or side effects).</li>
+                                    <li>Greetings, random messages, and general disclaimers will be automatically rejected.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-teal btn-lg py-3" {% if not models_ready %}disabled{% endif %}>
+                                <i class="fa-solid fa-microscope me-2"></i> Analyze Patient Review
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reviews Panel -->
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="custom-card">
+                    <div class="card-header-teal d-flex align-items-center">
+                        <i class="fa-solid fa-lightbulb fa-lg me-2 text-teal" style="color: var(--brand-teal);"></i>
+                        <h5>Quick-Test Demo Reviews</h5>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-secondary mb-3">Click on any sample review below to instantly populate the clinical input area:</p>
+                        
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-3 d-flex align-items-start sample-btn" 
+                               data-text="I started taking this medicine for my depression. Within a month, I felt a huge weight lifted off my shoulders and my mood is much better. However, it caused severe insomnia and some dry mouth.">
+                                <div class="me-3">
+                                    <span class="badge bg-primary-subtle text-primary p-2"><i class="fa-solid fa-brain"></i></span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">Depression Review (With Side Effects)</h6>
+                                    <p class="mb-0 text-secondary text-truncate fs-7">"I started taking this medicine for my depression. Within a month, I felt..."</p>
+                                </div>
+                            </a>
+                            
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-3 d-flex align-items-start sample-btn" 
+                               data-text="This gel has been a miracle for my severe acne. After trying everything else, my face is completely clear and soft now. Absolutely zero side effects or skin peeling!">
+                                <div class="me-3">
+                                    <span class="badge bg-success-subtle text-success p-2"><i class="fa-solid fa-face-smile"></i></span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">Acne Review (No Side Effects)</h6>
+                                    <p class="mb-0 text-secondary text-truncate fs-7">"This gel has been a miracle for my severe acne. After trying everything..."</p>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-3 d-flex align-items-start sample-btn" 
+                               data-text="I was prescribed Metformin for type 2 diabetes. It helped control my blood sugar and I noticed weight loss. However, it caused mild nausea initially.">
+                                <div class="me-3">
+                                    <span class="badge bg-info-subtle text-info p-2"><i class="fa-solid fa-notes-medical"></i></span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">Diabetes Review (Correct Prediction Test)</h6>
+                                    <p class="mb-0 text-secondary text-truncate fs-7">"I was prescribed Metformin for type 2 diabetes. It helped control..."</p>
+                                </div>
+                            </a>
+                            
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-3 d-flex align-items-start sample-btn" 
+                               data-text="I take this for chronic back pain. It relieves the aching and allows me to sleep, but it makes me feel extremely tired, dizzy, and nauseous the next morning.">
+                                <div class="me-3">
+                                    <span class="badge bg-warning-subtle text-warning p-2"><i class="fa-solid fa-kit-medical"></i></span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">Pain Review (Multiple Side Effects)</h6>
+                                    <p class="mb-0 text-secondary text-truncate fs-7">"I take this for chronic back pain. It relieves the aching..."</p>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-3 d-flex align-items-start sample-btn" 
+                               data-text="The recommendations shown are derived from historical drug-review data and are intended for educational purposes only.">
+                                <div class="me-3">
+                                    <span class="badge bg-danger-subtle text-danger p-2"><i class="fa-solid fa-ban"></i></span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">Invalid Review Test (Disclaimer Text)</h6>
+                                    <p class="mb-0 text-secondary text-truncate fs-7">"The recommendations shown are derived from historical drug-review data..."</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-5">
+            <p class="mb-1">&copy; 2026 Classification Patient Condition Drug Recommendation Systemv</p>
+            <p class="text-muted fs-8"> BJMS | NLP & Healthcare Analytics</p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script to populate text on click -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sampleBtns = document.querySelectorAll('.sample-btn');
+            const textarea = document.getElementById('review_text');
+            
+            sampleBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if(textarea) {
+                        textarea.value = this.getAttribute('data-text');
+                        // Scroll to textarea smoothly
+                        textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Add temporary focus effect
+                        textarea.focus();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

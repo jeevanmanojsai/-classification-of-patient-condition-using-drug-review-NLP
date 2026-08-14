@@ -1,0 +1,304 @@
+{
+    "best_model_name": "Logistic Regression",
+    "model_comparison": [
+        {
+            "model": "Logistic Regression",
+            "accuracy": 0.8054,
+            "precision": 0.8065,
+            "recall": 0.8054,
+            "f1_score": 0.8056
+        },
+        {
+            "model": "Naive Bayes",
+            "accuracy": 0.7919,
+            "precision": 0.7928,
+            "recall": 0.7919,
+            "f1_score": 0.7914
+        },
+        {
+            "model": "SVM",
+            "accuracy": 0.7882,
+            "precision": 0.7884,
+            "recall": 0.7882,
+            "f1_score": 0.7882
+        },
+        {
+            "model": "Random Forest",
+            "accuracy": 0.7436,
+            "precision": 0.7559,
+            "recall": 0.7436,
+            "f1_score": 0.7423
+        }
+    ],
+    "classification_report": {
+        "ADHD": {
+            "precision": 0.9164619164619164,
+            "recall": 0.8515981735159818,
+            "f1-score": 0.8828402366863906,
+            "support": 438.0
+        },
+        "Acne": {
+            "precision": 0.9623430962343096,
+            "recall": 0.92,
+            "f1-score": 0.9406952965235174,
+            "support": 500.0
+        },
+        "Anxiety": {
+            "precision": 0.7335984095427436,
+            "recall": 0.738,
+            "f1-score": 0.7357926221335992,
+            "support": 500.0
+        },
+        "Bipolar Disorde": {
+            "precision": 0.7867803837953091,
+            "recall": 0.738,
+            "f1-score": 0.7616099071207431,
+            "support": 500.0
+        },
+        "Birth Control": {
+            "precision": 0.9155206286836935,
+            "recall": 0.932,
+            "f1-score": 0.9236868186323092,
+            "support": 500.0
+        },
+        "Depression": {
+            "precision": 0.6525911708253359,
+            "recall": 0.68,
+            "f1-score": 0.6660137120470128,
+            "support": 500.0
+        },
+        "High Blood Pressure": {
+            "precision": 0.8445040214477212,
+            "recall": 0.863013698630137,
+            "f1-score": 0.8536585365853658,
+            "support": 365.0
+        },
+        "Insomnia": {
+            "precision": 0.8226415094339623,
+            "recall": 0.872,
+            "f1-score": 0.8466019417475729,
+            "support": 500.0
+        },
+        "Obesity": {
+            "precision": 0.6139240506329114,
+            "recall": 0.5950920245398773,
+            "f1-score": 0.6043613707165109,
+            "support": 489.0
+        },
+        "Pain": {
+            "precision": 0.878095238095238,
+            "recall": 0.922,
+            "f1-score": 0.8995121951219512,
+            "support": 500.0
+        },
+        "Vaginal Yeast Infection": {
+            "precision": 0.9747474747474747,
+            "recall": 0.9578163771712159,
+            "f1-score": 0.9662077596996246,
+            "support": 403.0
+        },
+        "Weight Loss": {
+            "precision": 0.6294117647058823,
+            "recall": 0.642,
+            "f1-score": 0.6356435643564357,
+            "support": 500.0
+        },
+        "accuracy": 0.8054433713784022,
+        "macro avg": {
+            "precision": 0.8108849720505414,
+            "recall": 0.8092933561547677,
+            "f1-score": 0.809718663447586,
+            "support": 5695.0
+        },
+        "weighted avg": {
+            "precision": 0.8065280914801932,
+            "recall": 0.8054433713784022,
+            "f1-score": 0.8056122661638616,
+            "support": 5695.0
+        }
+    },
+    "confusion_matrix": [
+        [
+            373,
+            0,
+            12,
+            10,
+            0,
+            15,
+            8,
+            10,
+            3,
+            5,
+            0,
+            2
+        ],
+        [
+            0,
+            460,
+            2,
+            4,
+            27,
+            2,
+            3,
+            0,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            4,
+            0,
+            369,
+            10,
+            2,
+            73,
+            8,
+            21,
+            0,
+            13,
+            0,
+            0
+        ],
+        [
+            10,
+            0,
+            29,
+            369,
+            0,
+            54,
+            7,
+            19,
+            4,
+            3,
+            0,
+            5
+        ],
+        [
+            0,
+            12,
+            2,
+            2,
+            466,
+            4,
+            3,
+            2,
+            1,
+            2,
+            3,
+            3
+        ],
+        [
+            9,
+            1,
+            52,
+            42,
+            3,
+            340,
+            7,
+            17,
+            10,
+            11,
+            2,
+            6
+        ],
+        [
+            3,
+            0,
+            8,
+            9,
+            0,
+            7,
+            315,
+            7,
+            3,
+            11,
+            0,
+            2
+        ],
+        [
+            5,
+            0,
+            20,
+            8,
+            0,
+            11,
+            5,
+            436,
+            0,
+            11,
+            2,
+            2
+        ],
+        [
+            1,
+            0,
+            2,
+            5,
+            1,
+            10,
+            7,
+            2,
+            291,
+            2,
+            0,
+            168
+        ],
+        [
+            2,
+            1,
+            6,
+            5,
+            2,
+            3,
+            4,
+            11,
+            1,
+            461,
+            3,
+            1
+        ],
+        [
+            0,
+            3,
+            1,
+            1,
+            4,
+            0,
+            1,
+            4,
+            0,
+            3,
+            386,
+            0
+        ],
+        [
+            0,
+            1,
+            0,
+            4,
+            4,
+            2,
+            5,
+            1,
+            160,
+            2,
+            0,
+            321
+        ]
+    ],
+    "classes": [
+        "ADHD",
+        "Acne",
+        "Anxiety",
+        "Bipolar Disorde",
+        "Birth Control",
+        "Depression",
+        "High Blood Pressure",
+        "Insomnia",
+        "Obesity",
+        "Pain",
+        "Vaginal Yeast Infection",
+        "Weight Loss"
+    ]
+}
