@@ -183,9 +183,9 @@ def predict():
             if detected_side_effects:
                 alternative_drugs = recommender.get_alternatives(pred_condition, current_drug=exclude_drug, top_n=3)
 
-        # 9. Explainable AI: Keywords (Positive and Negative)
+        # 9. Explainable AI: highlight influential review terms
         explainer = PredictExplainer()
-        explain_positive, explain_negative, highlighted_review = explainer.explain(review_text, pred_condition)
+        _, _, highlighted_review = explainer.explain(review_text, pred_condition)
 
         # Return results to template
         return render_template(
@@ -202,8 +202,6 @@ def predict():
             detected_side_effects=detected_side_effects,
             top_drugs=top_drugs,
             alternative_drugs=alternative_drugs,
-            explain_positive=explain_positive,
-            explain_negative=explain_negative,
             condition_probs=condition_probs,
             model_used=model_name,
             mentioned_drug=mentioned_drug

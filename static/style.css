@@ -231,6 +231,146 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: none;
 }
 
+.recommendation-table {
+    table-layout: fixed;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.recommendation-table th,
+.recommendation-table td {
+    vertical-align: middle;
+}
+
+.recommendation-table th {
+    padding: 0.8rem 0.55rem;
+    text-align: center;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    letter-spacing: 0.025em;
+}
+
+.recommendation-table th:nth-child(1),
+.recommendation-table td:nth-child(1) {
+    width: 8%;
+    text-align: center;
+}
+
+.recommendation-table th:nth-child(2),
+.recommendation-table td:nth-child(2) {
+    width: 30%;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.recommendation-table th:nth-child(3),
+.recommendation-table td:nth-child(3) {
+    width: 19%;
+    text-align: center;
+}
+
+.recommendation-table th:nth-child(4),
+.recommendation-table td:nth-child(4) {
+    width: 23%;
+    text-align: center;
+}
+
+.recommendation-table th:nth-child(5),
+.recommendation-table td:nth-child(5) {
+    width: 20%;
+    text-align: center;
+}
+
+.recommendation-table td {
+    padding: 0.9rem 0.55rem;
+    font-size: 0.85rem;
+}
+
+.recommendation-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.recommendation-table tbody tr:hover td {
+    background-color: #f8fafc;
+}
+
+.table-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.alternative-card {
+    border-color: #fcd34d;
+}
+
+.alternative-card-header {
+    background-color: #fffbeb;
+    border-bottom-color: #fde68a;
+}
+
+.alternative-card-header h5 {
+    color: #854d0e;
+}
+
+.alternative-card-header p {
+    color: #92400e;
+}
+
+.alternative-notice {
+    padding: 0.9rem 1rem;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    background-color: #fffbeb;
+    color: #854d0e;
+    font-size: 0.875rem;
+}
+
+.rating-value {
+    color: #92400e;
+    white-space: nowrap;
+}
+
+.rating-value i {
+    color: #f59e0b;
+}
+
+.score-pill {
+    display: inline-block;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background-color: #dcfce7;
+    color: #166534;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+    .recommendation-table th {
+        padding: 0.7rem 0.3rem;
+        font-size: 0.64rem;
+    }
+
+    .recommendation-table td {
+        padding: 0.75rem 0.3rem;
+        font-size: 0.78rem;
+    }
+
+    .table-rank {
+        min-width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.72rem;
+    }
+}
+
 /* Footer style */
 footer {
     border-top: 1px solid var(--border-color);

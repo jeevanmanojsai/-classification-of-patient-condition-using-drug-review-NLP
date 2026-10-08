@@ -125,57 +125,6 @@
                     </div>
                 </div>
 
-                <!-- AI Explainer: Positive vs Negative Keyword Weights -->
-                <div class="custom-card">
-                    <div class="card-header-teal">
-                        <h5><i class="fa-solid fa-code-compare me-2"></i>Word Feature Contributions</h5>
-                    </div>
-                    <div class="p-4">
-                        <div class="row">
-                            <!-- Positive Keywords -->
-                            <div class="col-sm-6 border-end">
-                                <h6 class="fw-bold text-success mb-3"><i class="fa-solid fa-circle-plus me-1"></i>Positive Keywords</h6>
-                                {% if explain_positive %}
-                                    {% for kw in explain_positive %}
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between fs-7 mb-1">
-                                                <code class="fw-bold text-dark fs-7">{{ kw.word }}</code>
-                                                <span class="text-success">+{{ kw.weight | round(3) }}</span>
-                                            </div>
-                                            <div class="progress" style="height: 5px; border-radius: 3px;">
-                                                {% set max_pos = explain_positive[0].weight %}
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ (kw.weight / max_pos * 100) }}%"></div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <span class="text-secondary fs-8">No positive contributors.</span>
-                                {% endif %}
-                            </div>
-                            
-                            <!-- Negative Keywords -->
-                            <div class="col-sm-6">
-                                <h6 class="fw-bold text-danger mb-3"><i class="fa-solid fa-circle-minus me-1"></i>Negative Keywords</h6>
-                                {% if explain_negative %}
-                                    {% for kw in explain_negative %}
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between fs-7 mb-1">
-                                                <code class="fw-bold text-dark fs-7">{{ kw.word }}</code>
-                                                <span class="text-danger">{{ kw.weight | round(3) }}</span>
-                                            </div>
-                                            <div class="progress" style="height: 5px; border-radius: 3px;">
-                                                {% set max_neg = explain_negative[0].abs_weight %}
-                                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ (kw.abs_weight / max_neg * 100) }}%"></div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <span class="text-secondary fs-8">No negative contributors.</span>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- RIGHT COLUMN: Medical Predictions & Recommendations -->
@@ -208,42 +157,46 @@
                     </div>
                 </div>
 
-                <!-- Recommendations (Show ONLY if NOT Low Confidence) -->
-                {% if not is_low_confidence %}
+            </div>
+        </div>
+
+        <!-- Full-width recommendations prevent unused space beside the analysis cards -->
+        {% if not is_low_confidence %}
+            <div class="row mt-4">
+                <div class="col-12">
                     <!-- Primary Recommendations Card -->
                     <div class="custom-card mb-4">
                         <div class="card-header-teal">
                             <h5><i class="fa-solid fa-prescription-bottle-medical me-2"></i>Drug Information Reference</h5>
                         </div>
                         <div class="p-4">
-                            <!-- Safety Disclaimer -->
                             <div class="alert alert-info border-0 p-3 mb-3 fs-7 text-secondary" style="border-radius: 10px; background-color: var(--accent-blue-light); color: #0369a1;">
                                 <i class="fa-solid fa-circle-info me-2 text-info"></i>
                                 <strong>Safety Disclaimer:</strong> The medications shown are derived from historical drug-review data and are intended for educational purposes only. They do not constitute professional medical advice, diagnosis, or treatment.
                             </div>
 
                             <p class="text-secondary fs-7 mb-3">Ranked list of drugs for <strong>{{ predicted_condition }}</strong>, ordered by rating, utility, and volume:</p>
-                            
+
                             {% if top_drugs %}
                                 <div class="table-responsive">
-                                    <table class="table custom-table">
+                                    <table class="table custom-table recommendation-table">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Drug Name</th>
-                                                <th>Avg Rating</th>
-                                                <th>Useful Votes</th>
-                                                <th>Recomm. Score</th>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Drug</th>
+                                                <th scope="col">Avg.<br>rating</th>
+                                                <th scope="col">Helpful<br>votes</th>
+                                                <th scope="col">Rank<br>score</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for drug in top_drugs %}
                                                 <tr>
-                                                    <td><strong>{{ loop.index }}</strong></td>
+                                                    <td><span class="table-rank">{{ loop.index }}</span></td>
                                                     <td><span class="fw-semibold text-dark">{{ drug.drugName }}</span></td>
-                                                    <td><i class="fa-solid fa-star text-warning me-1"></i>{{ drug.avg_rating }}</td>
+                                                    <td><span class="rating-value"><i class="fa-solid fa-star me-1"></i>{{ drug.avg_rating }}</span></td>
                                                     <td>{{ drug.total_useful }}</td>
-                                                    <td><span class="badge bg-secondary-subtle text-secondary px-2 py-1">{{ drug.score }}</span></td>
+                                                    <td><span class="score-pill">{{ drug.score }}</span></td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
@@ -258,62 +211,67 @@
                         </div>
                     </div>
 
-                    <!-- Alternative Drug Recommendations (Conditional) -->
                     {% if detected_side_effects %}
-                        <div class="custom-card border-warning" style="border: 1px solid #fef3c7;">
-                            <div class="card-header-teal bg-warning-subtle" style="background-color: #fffbeb; border-bottom: 1px solid #fef3c7;">
-                                <h5 class="text-warning-emphasis"><i class="fa-solid fa-shield-halved me-2"></i>Alternative Highly Rated Drugs</h5>
+                        <div class="custom-card alternative-card">
+                            <div class="card-header-teal alternative-card-header">
+                                <h5><i class="fa-solid fa-shield-halved me-2"></i>Other Highly Rated Options</h5>
+                                <p class="mb-0 mt-1 small">Based on review ratings and usefulness for {{ predicted_condition }}</p>
                             </div>
                             <div class="p-4">
-                                <div class="alert alert-warning border-0 p-3 mb-3 fs-7" style="background-color: #fffbeb; color: #854d0e; border-radius: 10px;">
+                                <div class="alternative-notice mb-3">
                                     <i class="fa-solid fa-circle-info me-2"></i>
-                                    Side effects (<strong>{{ detected_side_effects | join(', ') }}</strong>) were detected. 
+                                    Side effects (<strong>{{ detected_side_effects | join(', ') }}</strong>) were detected.
                                     {% if mentioned_drug %}
-                                        To replace <strong>{{ mentioned_drug }}</strong>, consider these alternative drugs for {{ predicted_condition }} with fewer side-effect reports:
+                                        These options exclude <strong>{{ mentioned_drug }}</strong>.
                                     {% else %}
-                                        Consider these alternative drugs for {{ predicted_condition }}:
+                                        These are other highly rated options for this condition.
                                     {% endif %}
+                                    This ranking is based on historical reviews; it does not establish that a drug is safer or suitable for you.
                                 </div>
 
                                 {% if alternative_drugs %}
                                     <div class="table-responsive">
-                                        <table class="table custom-table">
+                                        <table class="table custom-table recommendation-table alternative-table mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Alternative Drug</th>
-                                                    <th>Avg Rating</th>
-                                                    <th>Useful Votes</th>
-                                                    <th>Recomm. Score</th>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Drug</th>
+                                                    <th scope="col">Avg.<br>rating</th>
+                                                    <th scope="col">Helpful<br>votes</th>
+                                                    <th scope="col">Rank<br>score</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for drug in alternative_drugs %}
                                                     <tr>
-                                                        <td><span class="fw-semibold text-success"><i class="fa-solid fa-circle-check me-2"></i>{{ drug.drugName }}</span></td>
-                                                        <td><i class="fa-solid fa-star text-warning me-1"></i>{{ drug.avg_rating }}</td>
+                                                        <td><span class="table-rank">{{ loop.index }}</span></td>
+                                                        <td><span class="fw-semibold text-dark">{{ drug.drugName }}</span></td>
+                                                        <td><span class="rating-value"><i class="fa-solid fa-star me-1"></i>{{ drug.avg_rating }}</span></td>
                                                         <td>{{ drug.total_useful }}</td>
-                                                        <td><span class="badge bg-success-subtle text-success px-2 py-1">{{ drug.score }}</span></td>
+                                                        <td><span class="score-pill">{{ drug.score }}</span></td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
                                 {% else %}
-                                    <p class="text-secondary text-center py-2">No alternative drugs available in dataset for this condition.</p>
+                                    <div class="text-secondary text-center py-3">
+                                        <i class="fa-solid fa-magnifying-glass me-1"></i>
+                                        No other drug options were found in the review data for this condition.
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
                     {% endif %}
-                {% else %}
-                    <!-- Low Confidence Placeholder -->
-                    <div class="custom-card p-4 text-center border-warning bg-light">
-                        <i class="fa-solid fa-shield fa-3x text-warning mb-3"></i>
-                        <h5 class="fw-bold">Drug Recommendations Hidden</h5>
-                        <p class="text-secondary fs-7 mb-0">Due to low prediction confidence (< 30%), automatic drug recommendations have been withheld for safety.</p>
-                    </div>
-                {% endif %}
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="custom-card p-4 mt-4 text-center border-warning bg-light">
+                <i class="fa-solid fa-shield fa-3x text-warning mb-3"></i>
+                <h5 class="fw-bold">Drug Recommendations Hidden</h5>
+                <p class="text-secondary fs-7 mb-0">Due to low prediction confidence (&lt; 30%), automatic drug recommendations have been withheld for safety.</p>
+            </div>
+        {% endif %}
 
         <!-- Footer -->
         <footer class="text-center mt-5">
