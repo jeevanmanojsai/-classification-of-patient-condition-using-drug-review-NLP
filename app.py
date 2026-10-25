@@ -84,7 +84,7 @@ def predict():
     # --- Input Validation (Issue 8) ---
     # 1. Reject empty text
     if not review_text:
-        flash("⚠ Please enter a valid review to analyze.", "warning")
+        flash("Please enter a valid review to analyze.", "warning")
         return redirect(url_for("index"))
         
     review_text_lower = review_text.lower()
@@ -93,26 +93,26 @@ def predict():
     # 2. Reject greeting or single word
     if len(words) == 1:
         if words[0] in GREETINGS:
-            flash("⚠ Input rejected: Greetings are not valid patient reviews. Please describe a clinical experience.", "warning")
+            flash("Input rejected: greetings are not valid patient reviews. Please describe a clinical experience.", "warning")
             return redirect(url_for("index"))
         else:
-            flash("⚠ Input rejected: Single-word inputs are not valid treatment reviews.", "warning")
+            flash("Input rejected: single-word inputs are not valid treatment reviews.", "warning")
             return redirect(url_for("index"))
             
     # 3. Check for greetings under 15 words
     if len(words) < 15:
         # Check if they are just greetings
         if all(w in GREETINGS for w in words):
-            flash("⚠ Input rejected: Greetings are not valid patient reviews.", "warning")
+            flash("Input rejected: greetings are not valid patient reviews.", "warning")
             return redirect(url_for("index"))
         # General word count failure
-        flash("⚠ Review is too short. Please provide a more detailed patient review of at least 15 words to ensure reliable analysis.", "warning")
+        flash("Review is too short. Please provide a more detailed patient review of at least 15 words to ensure reliable analysis.", "warning")
         return redirect(url_for("index"))
 
     # --- Medical Review Detection (Issue 1) ---
     is_medical = any(keyword in review_text_lower for keyword in MEDICAL_KEYWORDS)
     if not is_medical:
-        flash("⚠ No valid patient treatment review detected. Please enter a review describing a medical condition, treatment experience, medication effectiveness, or side effects.", "warning")
+        flash("No valid patient treatment review detected. Please enter a review describing a medical condition, treatment experience, medication effectiveness, or side effects.", "warning")
         return redirect(url_for("index"))
 
     try:
@@ -126,7 +126,7 @@ def predict():
         # 2. Preprocess and vectorize
         cleaned_text = preprocess_review(review_text)
         if not cleaned_text:
-            flash("⚠ Cleaned text contains no meaningful words. Please write a longer, descriptive review.", "warning")
+            flash("Cleaned text contains no meaningful words. Please write a longer, descriptive review.", "warning")
             return redirect(url_for("index"))
             
         X = vectorizer.transform([cleaned_text])

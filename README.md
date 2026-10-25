@@ -229,3 +229,16 @@ patient-condition-classification/
 1. *Drug Review Dataset (Drugs.com)*, UCI Machine Learning Repository.
 2. *Natural Language Toolkit (NLTK)* documentation.
 3. *Scikit-learn: Machine Learning in Python*, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+
+
+
+
+<!-- 
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python app.py
+ -->
+
+
+

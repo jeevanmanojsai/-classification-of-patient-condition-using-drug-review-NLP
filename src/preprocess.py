@@ -4,26 +4,38 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
-# Ensure required NLTK packages are downloaded
+FALLBACK_STOPWORDS = {
+    "a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "from",
+    "had", "has", "have", "he", "her", "his", "i", "in", "is", "it", "me",
+    "my", "not", "of", "on", "or", "our", "she", "so", "that", "the", "their",
+    "them", "this", "to", "was", "we", "were", "with", "you", "your"
+}
+
+
 def download_nltk_resources():
     resources = {
-        'corpora/stopwords': 'stopwords',
-        'tokenizers/punkt': 'punkt',
-        'corpora/wordnet': 'wordnet',
-        'corpora/omw-1.4': 'omw-1.4'
+        "corpora/stopwords": "stopwords",
+        "corpora/wordnet": "wordnet",
+        "corpora/omw-1.4": "omw-1.4"
     }
     for resource_path, download_name in resources.items():
         try:
-            nltk.data.find(resource_path)
+            try:
+                nltk.data.find(resource_path)
+            except LookupError:
+                nltk.data.find(resource_path + ".zip")
         except LookupError:
             print(f"Downloading NLTK resource: {download_name}...")
-            nltk.download(download_name, quiet=True)
+            nltk.download(download_name, quiet=True, raise_on_error=False)
 
 download_nltk_resources()
 
 class TextPreprocessor:
     def __init__(self):
-        self.stop_words = set(stopwords.words('english'))
+        try:
+            self.stop_words = set(stopwords.words("english"))
+        except LookupError:
+            self.stop_words = FALLBACK_STOPWORDS
         self.lemmatizer = WordNetLemmatizer()
         
     def clean_text(self, text):
@@ -58,8 +70,11 @@ class TextPreprocessor:
         for token in tokens:
             if token not in self.stop_words and len(token) > 2:
                 # Lemmatize verbs, nouns, and adjectives
-                lemma = self.lemmatizer.lemmatize(token, pos='v')
-                lemma = self.lemmatizer.lemmatize(lemma, pos='n')
+                try:
+                    lemma = self.lemmatizer.lemmatize(token, pos='v')
+                    lemma = self.lemmatizer.lemmatize(lemma, pos='n')
+                except LookupError:
+                    lemma = token
                 cleaned_tokens.append(lemma)
                 
         # 7. Whitespace normalization

@@ -141,5 +141,5 @@ class PredictExplainer:
 
 if __name__ == "__main__":
     explainer = PredictExplainer()
-    test_review = "I was prescribed Metformin for type 2 diabetes. It helped control my blood sugar."
+    test_review = "I was prescribed medicine for high blood pressure. It helped stabilize my readings."
     print(explainer.explain(test_review, "Obesity"))

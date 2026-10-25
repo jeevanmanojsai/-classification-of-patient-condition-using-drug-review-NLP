@@ -70,13 +70,13 @@
                                 <i class="fa-solid fa-file-medical text-teal me-2" style="color: var(--brand-teal);"></i>
                                 Enter Patient Treatment Review
                             </label>
-                            <textarea class="form-control custom-textarea" id="review_text" name="review_text" rows="6" placeholder="Describe the symptoms, treatment outcomes, ratings, and any side effects experienced (e.g., 'I was prescribed Metformin for my type 2 diabetes. It helped control my blood sugar and I feel much better...')" required {% if not models_ready %}disabled{% endif %}></textarea>
+                            <textarea class="form-control custom-textarea" id="review_text" name="review_text" rows="6" placeholder="Describe the symptoms, treatment outcomes, ratings, and any side effects experienced (e.g., 'I was prescribed medicine for high blood pressure. It helped stabilize my readings and I feel much better...')" required {% if not models_ready %}disabled{% endif %}></textarea>
                             
                             <!-- Input guidelines list -->
                             <div class="mt-3 p-3 bg-light rounded-3 border-start border-primary border-3 fs-7">
                                 <span class="fw-bold d-block mb-1 text-primary"><i class="fa-solid fa-shield-halved me-1"></i> NLP Input Requirements & Constraints:</span>
                                 <ul class="mb-0 ps-3 text-secondary">
-                                    <li>Review must contain at least **15 words** for robust syntactic parsing.</li>
+                                    <li>Review must contain at least 15 words for robust syntactic parsing.</li>
                                     <li>Input must be a valid clinical review (mentions of drugs, doctors, pain, symptoms, treatments, or side effects).</li>
                                     <li>Greetings, random messages, and general disclaimers will be automatically rejected.</li>
                                 </ul>
@@ -128,13 +128,13 @@
                             </a>
 
                             <a href="#" class="list-group-item list-group-item-action border-0 px-0 py-3 d-flex align-items-start sample-btn" 
-                               data-text="I was prescribed Metformin for type 2 diabetes. It helped control my blood sugar and I noticed weight loss. However, it caused mild nausea initially.">
+                               data-text="I was prescribed this medicine for high blood pressure. It helped stabilize my readings and reduced my headaches, but it caused mild nausea and dizziness initially.">
                                 <div class="me-3">
                                     <span class="badge bg-info-subtle text-info p-2"><i class="fa-solid fa-notes-medical"></i></span>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <h6 class="fw-bold mb-1">Diabetes Review (Correct Prediction Test)</h6>
-                                    <p class="mb-0 text-secondary text-truncate fs-7">"I was prescribed Metformin for type 2 diabetes. It helped control..."</p>
+                                    <h6 class="fw-bold mb-1">High Blood Pressure Review</h6>
+                                    <p class="mb-0 text-secondary text-truncate fs-7">"I was prescribed this medicine for high blood pressure. It helped stabilize..."</p>
                                 </div>
                             </a>
                             
@@ -167,7 +167,7 @@
 
         <!-- Footer -->
         <footer class="text-center mt-5">
-            <p class="mb-1">&copy; 2026 Classification Patient Condition Drug Recommendation Systemv</p>
+            <p class="mb-1">&copy; 2026 Patient Condition Classification & Drug Recommendation System</p>
             <p class="text-muted fs-8"> BJMS | NLP & Healthcare Analytics</p>
         </footer>
     </div>
